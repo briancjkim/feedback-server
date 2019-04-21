@@ -10,7 +10,7 @@ module.exports = app => {
   app.get(
     "/auth/google/callback",
     passport.authenticate("google", {
-      failureRedirect: "/login"
+      failureRedirect: "/"
     }),
     (req, res) => {
       res.redirect("/");
@@ -21,7 +21,7 @@ module.exports = app => {
   app.get(
     "/auth/github/callback",
     passport.authenticate("github", {
-      failureRedirect: "/login"
+      failureRedirect: "/"
     }),
     (req, res) => {
       res.redirect("/");
@@ -33,7 +33,7 @@ module.exports = app => {
   app.get(
     "/auth/facebook/callback",
     passport.authenticate("facebook", {
-      failureRedirect: "/login"
+      failureRedirect: "/"
     }),
     (req, res) => {
       res.redirect("/");
