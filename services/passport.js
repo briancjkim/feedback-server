@@ -5,6 +5,8 @@ const GithubStrategy = require("passport-github");
 const keys = require("../config/keys");
 const mongoose = require("mongoose");
 
+const isDev = process.env.NODE_ENV !== "production";
+
 // schmea 를 2번째 변수로 안넣으면 모델을호출하는거임.
 const User = mongoose.model("user");
 
@@ -32,7 +34,9 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       // 이주소는 해커가 마음대로 자기네주소로 바꿀수잇기때문에 googleapi 에서 callbackURI와 반드시 같은 uri여야한다!
-      callbackURL: "/auth/google/callback"
+      callbackURL: isDev
+        ? "http://localhost:5000/auth/google/callback"
+        : "https://quiet-meadow-17520.herokuapp.com/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findOne({ googleId: profile.id });
@@ -53,7 +57,9 @@ passport.use(
     {
       clientID: keys.githubClientID,
       clientSecret: keys.githubClientSecret,
-      callbackURL: "http://localhost:5000/auth/github/callback"
+      callbackURL: isDev
+        ? "http://localhost:5000/auth/github/callback"
+        : "https://quiet-meadow-17520.herokuapp.com/auth/github/callback"
     },
     async (_, __, profile, done) => {
       const {
@@ -82,7 +88,9 @@ passport.use(
     {
       clientID: keys.facebookClientID,
       clientSecret: keys.facebookClientSecret,
-      callbackURL: "http://localhost:5000/auth/facebook/callback"
+      callbackURL: isDev
+        ? "http://localhost:5000/auth/facebook/callback"
+        : "https://quiet-meadow-17520.herokuapp.com/auth/facebook/callback"
     },
     async (_, __, profile, done) => {
       const {
