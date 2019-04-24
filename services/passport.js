@@ -34,19 +34,19 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       // 이주소는 해커가 마음대로 자기네주소로 바꿀수잇기때문에 googleapi 에서 callbackURI와 반드시 같은 uri여야한다!
-      callbackURL: isDev
-        ? "http://localhost:5000/auth/google/callback"
-        : "https://quiet-meadow-17520.herokuapp.com/auth/google/callback"
+      // callbackURL: isDev
+      //   ? "http://localhost:3000/auth/google/callback"
+      //   : "https://quiet-meadow-17520.herokuapp.com/auth/google/callback"
+      callbackURL: "/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findOne({ googleId: profile.id });
       if (user) {
         //첫번쨰 arg는 err
-        done(null, user);
-      } else {
-        const newUser = await new User({ googleId: profile.id }).save();
-        done(null, newUser);
+        return done(null, user);
       }
+      const newUser = await new User({ googleId: profile.id }).save();
+      done(null, newUser);
     }
   )
 );
@@ -69,16 +69,15 @@ passport.use(
       if (user) {
         user.avatarUrl = avatar_url;
         await user.save();
-        done(null, user);
-      } else {
-        const newUser = await User.create({
-          githubId: id,
-          avatarUrl: avatar_url,
-          name,
-          email
-        });
-        done(null, newUser);
+        return done(null, user);
       }
+      const newUser = await User.create({
+        githubId: id,
+        avatarUrl: avatar_url,
+        name,
+        email
+      });
+      done(null, newUser);
     }
   )
 );
@@ -102,16 +101,15 @@ passport.use(
         if (user) {
           user.avatarUrl = `https://graph.facebook.com/${id}/picture?type=large`;
           await user.save();
-          done(null, user);
-        } else {
-          const newUser = await User.create({
-            facebookId: id,
-            name,
-            email,
-            avatarUrl: `https://graph.facebook.com/${id}/picture?type=large`
-          });
-          done(null, newUser);
+          return done(null, user);
         }
+        const newUser = await User.create({
+          facebookId: id,
+          name,
+          email,
+          avatarUrl: `https://graph.facebook.com/${id}/picture?type=large`
+        });
+        done(null, newUser);
       } catch (err) {
         done(err);
       }

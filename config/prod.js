@@ -1,4 +1,4 @@
-// prod.js don't commit
+// production apis
 
 module.exports = {
   googleClientID: process.env.GOOGLE_CLIENT_ID,
