@@ -9,7 +9,11 @@ const userSchema = new Schema({
   facebookId: String,
   githubId: String,
   googleId: String,
-  avatarUrl: String
+  avatarUrl: String,
+  credits: {
+    type: Number,
+    default: 0
+  }
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: "email" });

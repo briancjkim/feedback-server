@@ -6,8 +6,9 @@ import App from "./components/App";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import Reducers from "./reducers";
+import reduxThunk from "redux-thunk";
 
-const store = createStore(Reducers, {}, applyMiddleware());
+const store = createStore(Reducers, {}, applyMiddleware(reduxThunk));
 ReactDOM.render(
   <Provider store={store}>
     <App />
