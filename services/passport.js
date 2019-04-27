@@ -37,7 +37,9 @@ passport.use(
       // callbackURL: isDev
       //   ? "http://localhost:3000/auth/google/callback"
       //   : "https://quiet-meadow-17520.herokuapp.com/auth/google/callback"
-      callbackURL: "/auth/google/callback"
+      callbackURL: "/auth/google/callback",
+      // 이것은 한이유는 히로쿠에서 https가아닌 http로 콜백을 불러서 url이 다르다고 에러가나옴
+      proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findOne({ googleId: profile.id });

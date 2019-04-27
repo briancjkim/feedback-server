@@ -51,6 +51,7 @@ if (process.env.NODE_ENV === "production") {
   // path를 지정해줘야한다 그래서 client/build폴더를 검색하도록 설정.
   app.use(express.static("client/build"));
   // server에 없는 route을 client에서 원하면 index.html파일을 보낸다
+  // html 파일이 로드되야 react상에 react-router가 작동하여 pagerefresh안되고 바로나온다.
   const path = require("path");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
