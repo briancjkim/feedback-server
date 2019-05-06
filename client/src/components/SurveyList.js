@@ -24,7 +24,7 @@ class SurveyList extends React.Component {
           </div>
         </div>
       ));
-    } else if (this.props.surveys && this.props.surveys.length)
+    } else if (this.props.surveys && this.props.surveys.length === 0)
       return "No Surveys to display, Please add a Survey";
     else {
       return "Loading";
