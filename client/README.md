@@ -33,3 +33,16 @@ Redirect 를 쓰는경우에는 Switch를 쓰지않으면 에러가 난다
 이번 프로젝트에서는 materializecss를 npm으로 설치한방식으로 진행.
 webpack 이 설치되어있어서 자동으로 실행해주고
 index.js에서 css파일을 불러들어오면 자동으로 읽어줌.
+
+## backend 에서 User/ Survey model 이잇는데 User에는 survey를 어트리뷰트로 두지않을거다
+
+survey각각 mongoDB에서는 도큐먼트(인스턴스)하나당 4mb라는 제한이있는데
+'rlackswhd91@hotmail.com' 가 20bytes 가넘는다. 즉 2000,000 개의 이메일을 서베이인스턴스가 저장할수있는데
+유저하나가 이러한 서베이 여러개를 가지게된다면 4mb는 금방초과하고 survey에 더이상 recipient내용을 추가할수없는 버그가발생한다.
+그래서 User에는 survey를 어트리뷰트로 두지않을거다.
+
+## 유저가 이메일에서 온 피드백에 true/false클릭을하면 sengrid가 그것을 30초마다 모아서 우리 server로보내는데 dev환경에서는 문제다
+
+webhook을 우리서버에 연결을할건데
+dev환경에서는 url이 localhost인데 이것은 기기마다 있는 주소이므로 의미가없다 그래서, localtunnel이라는것을 사용해서 특정주소로 오면
+우리서버로 연결되도록 한다.

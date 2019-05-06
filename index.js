@@ -9,8 +9,9 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 
-require("./db");
 require("./models/User");
+require("./models/Survey");
+require("./db");
 require("./services/passport");
 
 const app = express();
@@ -45,6 +46,7 @@ app.use(passport.session());
 
 require("./router/authRouter")(app);
 require("./router/billingRouter")(app);
+require("./router/surveyRouter")(app);
 
 if (process.env.NODE_ENV === "production") {
   // main.js 나 css파일이 index.html에서 요청됬을시에 server에는 없으므로

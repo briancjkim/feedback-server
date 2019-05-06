@@ -8,6 +8,9 @@ import { Provider } from "react-redux";
 import Reducers from "./reducers";
 import reduxThunk from "redux-thunk";
 
+//for dev only
+import axios from "axios";
+window.axios = axios;
 const store = createStore(Reducers, {}, applyMiddleware(reduxThunk));
 ReactDOM.render(
   <Provider store={store}>

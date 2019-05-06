@@ -7,10 +7,10 @@ import {
 } from "react-router-dom";
 import Landing from "./Landing";
 import Header from "./Header";
+import Dashboard from "./Dashboard";
+import SurveyNew from "./surveys/SurveyNew";
 import * as actions from "../actions";
 import { connect } from "react-redux";
-const Dashboard = () => <h2>Dashboard</h2>;
-const SurveyNew = () => <h2>SurveyNew</h2>;
 
 class App extends React.Component {
   componentDidMount() {
