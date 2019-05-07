@@ -17,6 +17,8 @@ class App extends React.Component {
     this.props.fetchUser();
   }
   render() {
+    const { auth } = this.props;
+
     return (
       <div className="container">
         <Router>
@@ -32,8 +34,10 @@ class App extends React.Component {
     );
   }
 }
-
+const mapStateToProps = ({ auth }) => {
+  return { auth };
+};
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(App);

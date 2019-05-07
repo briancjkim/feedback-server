@@ -12,6 +12,13 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = async app => {
+  app.get("/api/surveys", onlyPrivate, async (req, res) => {
+    // recipients는 검색안하기
+    const surveys = await Survey.find({ user: req.user.id }).select({
+      recipients: false
+    });
+    res.send(surveys);
+  });
   app.get("/api/surveys/delete/:surveyId", onlyPrivate, async (req, res) => {
     const { surveyId } = req.params;
     await Survey.findOneAndDelete({ _id: surveyId });
@@ -21,19 +28,11 @@ module.exports = async app => {
     res.send(surveys);
   });
 
-  app.get("/api/surveys/:surveyId/:choice", (req, res) => {
+  app.get("/api/surveys/:surveyId/:choice", onlyPrivate, (req, res) => {
     const { choice } = req.params;
     res.send(
       `Thank you for your voting ${choice}!  We appreciate your support! `
     );
-  });
-
-  app.get("/api/surveys", onlyPrivate, async (req, res) => {
-    // recipients는 검색안하기
-    const surveys = await Survey.find({ user: req.user.id }).select({
-      recipients: false
-    });
-    res.send(surveys);
   });
 
   // sendgrid event notigication이 post방식으로 이주소로 우리한테보낸다! 30초에 한번씩
