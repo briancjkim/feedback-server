@@ -1,5 +1,5 @@
 const re = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-export default emails => {
+export const validateEmails = emails => {
   // regex 통과못하는 이메일주소만걸러낸다
   const invalidEmails = emails
     .split(",")
@@ -11,5 +11,11 @@ export default emails => {
       return `Remove the trailing comma or add another email`;
     }
     return `These are invalid emails ${invalidEmails}`;
+  }
+};
+export const validateEmail = email => {
+  const result = re.test(email);
+  if (!result) {
+    return "You should endter valid email address";
   }
 };

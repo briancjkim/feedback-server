@@ -1,5 +1,12 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_SURVEYS } from "./type";
+import {
+  FETCH_USER,
+  FETCH_SURVEYS,
+  FETCH_LATEST,
+  FETCH_OLDEST,
+  FETCH_ATOZ,
+  FETCH_MOST
+} from "./type";
 
 // reudx-thunk를 사용하면 dispatch에 직접 접근할 수 있도록 해줌.
 // action 을 return하지않고 함수 자체를 리턴할수있게해줌.
@@ -38,4 +45,37 @@ export const fetchSurveys = () => async dispatch => {
     type: FETCH_SURVEYS,
     payload: res.data
   });
+};
+
+export const deleteSurvey = surveyId => async dispatch => {
+  const res = await axios.get(`/api/surveys/delete/${surveyId}`);
+  console.log("button");
+  dispatch({
+    type: FETCH_SURVEYS,
+    payload: res.data
+  });
+};
+
+export const changeSort = sortType => async dispatch => {
+  if (sortType === "oldest") {
+    dispatch({
+      type: FETCH_OLDEST,
+      payload: null
+    });
+  } else if (sortType === "latest") {
+    dispatch({
+      type: FETCH_LATEST,
+      payload: null
+    });
+  } else if (sortType === "most") {
+    dispatch({
+      type: FETCH_MOST,
+      payload: null
+    });
+  } else if (sortType === "aToZ") {
+    dispatch({
+      type: FETCH_ATOZ,
+      payload: null
+    });
+  }
 };

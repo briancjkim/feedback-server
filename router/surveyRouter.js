@@ -12,6 +12,15 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = async app => {
+  app.get("/api/surveys/delete/:surveyId", onlyPrivate, async (req, res) => {
+    const { surveyId } = req.params;
+    await Survey.findOneAndDelete({ _id: surveyId });
+    const surveys = await Survey.find({ user: req.user.id }).select({
+      recipients: false
+    });
+    res.send(surveys);
+  });
+
   app.get("/api/surveys/:surveyId/:choice", (req, res) => {
     const { choice } = req.params;
     res.send(
@@ -104,7 +113,7 @@ module.exports = async app => {
   });
 
   app.post("/api/surveys", onlyPrivate, requireCredit, async (req, res) => {
-    const { title, subject, body, recipients } = req.body;
+    const { title, subject, body, recipients, from } = req.body;
     // recipients 는 [a@a.com, b@b.com,c@c.com] 식의 string array 인데 recipients schme 에 맞게 변형해줘야한다.
     const survey = new Survey({
       title,
@@ -117,7 +126,7 @@ module.exports = async app => {
     });
     // 이메일 보내기
     // 1st 오브젝은 subject,recipients가 필요하고 2번째오브젝은 함수인데 콘텐트 를 리턴함
-    const mailer = new Mailer(survey, surveyTemplate(survey));
+    const mailer = new Mailer(survey, surveyTemplate(survey), from);
     try {
       //send 는 비동기함수니까
       await mailer.send();

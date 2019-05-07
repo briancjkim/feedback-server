@@ -4,10 +4,10 @@ const keys = require("../config/keys");
 
 // Mail class를 상속하면서 많은 함수들을쓸수있따.
 module.exports = class Mailer extends helper.Mail {
-  constructor({ subject, recipients }, content) {
+  constructor({ subject, recipients }, content, from) {
     super();
     this.sgApi = sendgrid(keys.sendGridKey);
-    this.from_email = new helper.Email("no-reply@feedback.com");
+    this.from_email = new helper.Email(from);
     this.subject = subject;
     this.body = new helper.Content("text/html", content);
     this.recipients = this.formatAddresses(recipients);

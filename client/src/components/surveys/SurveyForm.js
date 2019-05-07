@@ -3,7 +3,7 @@ import React from "react";
 import { reduxForm, Field } from "redux-form";
 import SurveyField from "./SurveyField";
 import { Link } from "react-router-dom";
-import validateEmails from "../utils/validateEmails";
+import { validateEmails, validateEmail } from "../utils/validateEmails";
 import formFields from "./formFields";
 
 //코드의 반복을 줄이기위해 map을슨다
@@ -50,7 +50,8 @@ const validate = values => {
   // field중에서 name=title인놈의 props.meta.error에 이내용이 추가가된다.
   //   errors.title = "you must provide a title";
   // }
-
+  // from 항목의 이메일을 체크한다.
+  errors.from = validateEmail(values.from || "");
   // 처음 렌더링할때는 values의 값들이 다 empty 이므로 || ''를해준다
   errors.recipients = validateEmails(values.recipients || "");
   formFields.forEach(({ name }) => {
